@@ -1,17 +1,42 @@
-import React from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import "./index.css"
+import React, { useState } from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { doSignIn } from "../middleware/client";
+import store from "../middleware/state";
+import "./index.css";
 
 function AppLogin() {
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const user = {
+      correo: form.elements.correo.value,
+      password: form.elements.password.value,
+    };
+    const response = doSignIn(user);
+    console.log("response =>", response);
+    store.dispatch({type: "LOGIN", value: response});
+    setValidated(true);
+  };
+
   return (
     <Container>
-      <Form>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row>
           <Col></Col>
           <Col>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label sm="2">Correo Electronico</Form.Label>
-              <Form.Control type="email" placeholder="Ingresar correo" />
+              <Form.Control
+                name="correo"
+                type="email"
+                placeholder="Ingresar correo"
+              />
             </Form.Group>
           </Col>
           <Col></Col>
@@ -21,7 +46,11 @@ function AppLogin() {
           <Col>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label sm="2">Contraseña</Form.Label>
-              <Form.Control type="password" placeholder="*********" />
+              <Form.Control
+                name="password"
+                type="password"
+                placeholder="*********"
+              />
             </Form.Group>
           </Col>
           <Col></Col>

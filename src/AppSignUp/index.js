@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Col, Container, Form, Row, Button, InputGroup } from "react-bootstrap";
-import { doSignUp } from "../middleware";
+import { doSignUp } from "../middleware/client";
 import "./index.css";
 
 
