@@ -1,15 +1,20 @@
 import client from "./provider";
 
-function doSignIn(user){   
-    const promise = client.post("sign-in", user)
-    .catch(err => {
+function doSignIn(user){
+    try {
+        const response = client.post("sign-in", user)
+        return Promise.resolve(response).then(value => {
+            return {
+                ...value.data
+            }
+        });
+    } catch (err){
         console.error("There was an error with the operation", err);
         return {
           "token": "",
           "correo": ""
         };
-    }); 
-    return Promise.resolve(promise);
+    }   
 }
 
 function doSignUp(user){

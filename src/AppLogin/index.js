@@ -1,32 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { doSignIn } from "../middleware/client";
 import store from "../middleware/state";
 import "./index.css";
 
 function AppLogin() {
-  const [validated, setValidated] = useState(false);
+  const [loginState, setLoginState] = useState({
+    validated: false,
+    user: {
+      correo: "",
+      password: ""
+    }
+  });
+
+  useEffect(() => {
+    if (isUserValid(loginState.user)) {
+      doSignIn(loginState.user).then((user) => {
+        store.dispatch({ type: "LOGIN", value: user });
+      });
+      setLoginState({
+        validated: false,
+        user: {
+          correo: "",
+          password: ""
+        },
+      });
+    } else if (loginState.validated === true) {
+      setLoginState({
+        validated: false,
+        user: {
+          correo: "",
+          password: ""
+        },
+      });
+    }
+  }, [loginState]);
+
+  const isUserValid = (user) => {
+    const isCorreoValid = user?.correo !== undefined && user?.correo.length > 0;
+    const isPasswordValid =
+      user?.password !== undefined && user?.password.length > 0;
+    return user !== undefined && isCorreoValid && isPasswordValid;
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+    event.preventDefault();
+    event.stopPropagation();
 
-    const user = {
-      correo: form.elements.correo.value,
-      password: form.elements.password.value,
-    };
-    const response = doSignIn(user);
-    console.log("response =>", response);
-    store.dispatch({type: "LOGIN", value: response});
-    setValidated(true);
+    if (form.checkValidity() === true) {
+      const user = {
+        correo: form.elements.correo.value,
+        password: form.elements.password.value,
+      };
+
+      setLoginState({
+        validated: true,
+        user: user,
+      });
+    }
   };
 
   return (
     <Container>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form noValidate validated={loginState.validated} onSubmit={handleSubmit}>
         <Row>
           <Col></Col>
           <Col>
@@ -36,7 +73,11 @@ function AppLogin() {
                 name="correo"
                 type="email"
                 placeholder="Ingresar correo"
+                defaultValue={loginState.user.correo}
               />
+              <Form.Control.Feedback type="invalid">
+                Por favor ingrese un correo valido.
+              </Form.Control.Feedback>
             </Form.Group>
           </Col>
           <Col></Col>
@@ -50,7 +91,11 @@ function AppLogin() {
                 name="password"
                 type="password"
                 placeholder="*********"
+                defaultValue={loginState.user.password}
               />
+              <Form.Control.Feedback type="invalid">
+                Por favor ingrese su contraseña.
+              </Form.Control.Feedback>
             </Form.Group>
           </Col>
           <Col></Col>

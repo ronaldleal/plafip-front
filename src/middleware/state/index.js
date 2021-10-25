@@ -10,17 +10,19 @@ const INITIAL_STATE = {
 };
 
 function plafip(state, action) {
-    console.log("action => ", action);
     switch(action.type) {
         case "LOGIN": {
-            localStorage.setItem("user", action.response);
+            localStorage.setItem("user", JSON.stringify(action.value));
             return {
                 ...state,
                 user: {
-                   email: action.response.email,
-                   token: action.response.token     
+                   email: action.value?.correo,
+                   token: action.value?.token     
                 }
             };
+        } 
+        default: {
+            return { ...state };
         }
     }
 };
