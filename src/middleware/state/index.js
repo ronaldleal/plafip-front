@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     user: {
         nombre: "",
         correo: "",
-        email: "",
+        usuario: "",
         token: "",
     }
 };
@@ -16,8 +16,8 @@ function plafip(state, action) {
             return {
                 ...state,
                 user: {
-                   email: action.value?.correo,
-                   token: action.value?.token     
+                   correo: action.value.correo,
+                   token: action.value.jwt     
                 }
             };
         } 

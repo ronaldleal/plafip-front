@@ -5,6 +5,7 @@ import AppFotter from "./AppFooter";
 import AppLogin from "./AppLogin";
 import AppForgettenPassword from "./AppForgottenPassword";
 import AppSignUp from "./AppSignUp";
+import AppCarousel from "./AppCarousel";
 import "./App.css";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <AppNav />
+        <AppCarousel />
         <Switch>
           <Route path="/" component={AppHome} exact />
           <Route path="/home" component={AppHome} exact />

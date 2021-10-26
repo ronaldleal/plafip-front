@@ -11,7 +11,7 @@ function AppHome() {
         </Row>
       </Container>
       <Container>
-        <Row>
+        <Col>
           <Col>
             <Row>
               <h3>Nuestro Proposito</h3>
@@ -24,6 +24,7 @@ function AppHome() {
               </p>
             </Row>
           </Col>
+          
           <Col>
             <Row>
               <h3>Desarrolladores</h3>
@@ -40,11 +41,12 @@ function AppHome() {
               <p className="lead">Unab y MisionTic2022</p>
             </Row>
           </Col>
-        </Row>
+        </Col>
+
         <Row className="jumbotron jumbotron-fluid">
           <Container>
             <Row>
-              <h3>Conoce más sobre Finanzas Personales</h3>
+              <h3 className="text-center">Conoce más sobre Finanzas Personales</h3>
             </Row>
             <Row>
               <Col>

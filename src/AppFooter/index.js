@@ -7,7 +7,7 @@ function AppFotter() {
     <Container>
       <Row>
         <Col>
-          <p className="footer-element">Facebook</p>
+        <p className="footer-element">Facebook</p>
         </Col>
         <Col>
           <p className="footer-element">Instagram</p>
