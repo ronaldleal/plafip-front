@@ -3,23 +3,22 @@ import AppNav from "./AppNav";
 import AppHome from "./AppHome";
 import AppFotter from "./AppFooter";
 import AppLogin from "./AppLogin";
-import AppForgettenPassword from "./AppForgottenPassword";
 import AppSignUp from "./AppSignUp";
-import AppCarousel from "./AppCarousel";
 import "./App.css";
+import ROUTES from "./routes";
+import AppLogout from "./AppLogout";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <AppNav />
-        <AppCarousel />
         <Switch>
-          <Route path="/" component={AppHome} exact />
-          <Route path="/home" component={AppHome} exact />
-          <Route path="/login" component={AppLogin} exact />
-          <Route path="/recordar-clave" component={AppForgettenPassword} exact />
-          <Route path="/registrar-usuario" component={AppSignUp} exact />
+          <Route path={ROUTES.HOME} component={AppHome} exact />
+          <Route path={ROUTES.HOME} component={AppHome} exact />
+          <Route path={ROUTES.LOGIN} component={AppLogin} exact />
+          <Route path={ROUTES.SIGN_UP} component={AppSignUp} exact />
+          <Route path={ROUTES.LOGOUT} component={AppLogout} exact />
         </Switch>
         <AppFotter />
       </div>

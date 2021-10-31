@@ -1,28 +1,45 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Redirect } from "react-router";
 import { doSignIn } from "../middleware/client";
-import store from "../middleware/state";
+import { isLoggedIn } from "../middleware/login";
 import "./index.css";
 
+const isUserValid = (user) => {
+  return (
+    user !== undefined &&
+    user.correo !== undefined &&
+    user.correo.length > 0 &&
+    user !== undefined &&
+    user.password !== undefined &&
+    user.password.length > 0
+  );
+};
+
 function AppLogin() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [loginState, setLoginState] = useState({
     validated: false,
     user: {
       correo: "",
-      password: ""
-    }
+      password: "",
+    },
   });
 
   useEffect(() => {
-    if (isUserValid(loginState.user)) {
-      doSignIn(loginState.user).then((user) => {
-        store.dispatch({ type: "LOGIN", value: user });
+    if (!isLoggedIn(user) && isUserValid(loginState.user)) {
+      doSignIn(loginState.user).then((data) => {
+        dispatch({ type: "LOGIN", value: data });
       });
+
       setLoginState({
         validated: false,
         user: {
           correo: "",
-          password: ""
+          password: "",
         },
       });
     } else if (loginState.validated === true) {
@@ -30,18 +47,11 @@ function AppLogin() {
         validated: false,
         user: {
           correo: "",
-          password: ""
+          password: "",
         },
       });
     }
-  }, [loginState]);
-
-  const isUserValid = (user) => {
-    const isCorreoValid = user?.correo !== undefined && user?.correo.length > 0;
-    const isPasswordValid =
-      user?.password !== undefined && user?.password.length > 0;
-    return user !== undefined && isCorreoValid && isPasswordValid;
-  };
+  }, [user, loginState, dispatch]);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -61,9 +71,24 @@ function AppLogin() {
     }
   };
 
+  if (isLoggedIn(user)) {
+    return <Redirect push to="/home" />;
+  }
+
+  return (
+    <LoginForm
+      handleSubmit={handleSubmit}
+      validated={loginState.validated}
+      email={loginState.user.correo}
+      password={loginState.user.password}
+    />
+  );
+}
+
+const LoginForm = ({ handleSubmit, validated, email, password }) => {
   return (
     <Container>
-      <Form noValidate validated={loginState.validated} onSubmit={handleSubmit}>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row>
           <Col></Col>
           <Col>
@@ -73,7 +98,7 @@ function AppLogin() {
                 name="correo"
                 type="email"
                 placeholder="Ingresar correo"
-                defaultValue={loginState.user.correo}
+                defaultValue={email}
               />
               <Form.Control.Feedback type="invalid">
                 Por favor ingrese un correo valido.
@@ -91,7 +116,7 @@ function AppLogin() {
                 name="password"
                 type="password"
                 placeholder="*********"
-                defaultValue={loginState.user.password}
+                defaultValue={password}
               />
               <Form.Control.Feedback type="invalid">
                 Por favor ingrese su contraseña.
@@ -122,6 +147,6 @@ function AppLogin() {
       </Row>
     </Container>
   );
-}
+};
 
 export default AppLogin;

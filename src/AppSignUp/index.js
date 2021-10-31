@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Col, Container, Form, Row, Button, InputGroup } from "react-bootstrap";
+import ROUTES from "../routes";
+import { Redirect } from "react-router";
 import { doSignUp } from "../middleware/client";
 import "./index.css";
 
-
 function AppSignUp() {
-  const [validated, setValidated] = useState(false);
+  const [formState, setFormState] = useState({
+    validated: false,
+    signUp: false,
+  });
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -15,15 +19,29 @@ function AppSignUp() {
     }
 
     const user = {
-        "nombre": form.elements.nombre.value,
-        "usuario": form.elements.correo.value,
-        "correo": form.elements.correo.value,
-        "password": form.elements.password.value 
-    }
-    const response = doSignUp(user);
-    setValidated(true);
+      nombre: form.elements.nombre.value,
+      usuario: form.elements.correo.value,
+      correo: form.elements.correo.value,
+      password: form.elements.password.value,
+    };
+
+    doSignUp(user);
+    setFormState({
+      validated: true,
+      signUp: true,
+    });
   };
 
+  if (formState.signUp){
+    return <Redirect push to={ROUTES.HOME} />
+  }
+
+  return (
+    <SignUpForm handleSubmit={handleSubmit} validated={formState.validated} />
+  );
+}
+
+const SignUpForm = ({ handleSubmit, validated }) => {
   return (
     <>
       <Container>
@@ -119,6 +137,6 @@ function AppSignUp() {
       </Container>
     </>
   );
-}
+};
 
 export default AppSignUp;

@@ -5,7 +5,8 @@ function doSignIn(user){
         const response = client.post("sign-in", user)
         return Promise.resolve(response).then(value => {
             return {
-                ...value.data
+                correo: value.data.correo,
+                token: value.data.jwt
             }
         });
     } catch (err){
