@@ -1,21 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { isLoggedIn } from "../middleware/login";
-import logo from "../images/logo.png";
+import { isLoggedIn, isValidUser } from "../../../middleware/login";
+import ROUTES from "../../../routes";
+import logo from "../../../images/logo.png";
 
 function AppNav() {
-  const user = useSelector(state => state.user);
-  const loggedIn = useSelector(state => state.loggedIn)
+  const user = useSelector((state) => isValidUser(state.user));
   const LoggedInNav = () => {
     return (
       <>
-        
-        <Nav.Link href="/movimientos">Movimientos</Nav.Link>
-        <Nav.Link href="/balance">Balance</Nav.Link>
-        <Nav.Link href="/proyecciones">Proyecciones</Nav.Link>
-        <Nav.Link href="/educcacion">Educaccion Financiera</Nav.Link>
-        <Nav.Link href="/logout">Desconectarse</Nav.Link>
+        <Nav.Link href={ROUTES.MOVIMIENTOS}>Movimientos</Nav.Link>
+        <Nav.Link href={ROUTES.BALANCE}>Balance</Nav.Link>
+        <Nav.Link href={ROUTES.LOGOUT}>Desconectarse</Nav.Link>
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
             Logueado como: <a href="/#">{user.correo}</a>

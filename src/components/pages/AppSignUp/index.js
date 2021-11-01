@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Col, Container, Form, Row, Button, InputGroup } from "react-bootstrap";
-import ROUTES from "../routes";
+import ROUTES from "../../../routes";
 import { Redirect } from "react-router";
-import { doSignUp } from "../middleware/client";
+import { doSignUp } from "../../../middleware/client";
 import "./index.css";
 
 function AppSignUp() {

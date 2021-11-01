@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isLoggedIn } from "../middleware/login";
+import { isLoggedIn } from "../../../middleware/login";
 import { Redirect } from "react-router";
 
 const AppLogout = () => {

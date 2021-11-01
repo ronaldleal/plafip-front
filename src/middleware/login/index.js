@@ -6,7 +6,7 @@ const isLoggedIn = (stateUser) => {
     const entry = localStorage.getItem("user");
     user = entry ? JSON.parse(entry) : entry;
   }
-  if (user) {
+  if (user && user.token !== undefined) {
     const token = parseJwt(user.token);
     const loggedIn = token.exp * 1000 > Date.now();
     if (!loggedIn) {
@@ -18,16 +18,45 @@ const isLoggedIn = (stateUser) => {
   }
 };
 
+const getUserId = (stateUser) => {
+  let user;
+  if (isValidStateUser(stateUser)) {
+    user = stateUser;
+  } else {
+    const entry = localStorage.getItem("user");
+    user = entry ? JSON.parse(entry) : entry;
+  }
+
+  return user.id;
+};
+
 const isValidStateUser = (user) => {
-  if (user &&
-    user.correo &&
-    user.correo.lenght > 0 &&
-    user.token &&
-    user.token.lenght > 0) {
-     return true;   
+  if (
+    isPropertyValid(user, "correo") &&
+    isPropertyValid(user, "token") &&
+    isPropertyValid(user, "id")
+  ) {
+    return true;
   } else {
     return false;
   }
+};
+
+const isValidUser = (user) => {
+  if (
+    isPropertyValid(user, "correo") &&
+    isPropertyValid(user, "token") &&
+    isPropertyValid(user, "usuario") &&
+    isPropertyValid(user, "nombre")
+  ) {
+    return user;
+  } else {
+    return JSON.parse(localStorage.getItem("user"));
+  }
+};
+
+const isPropertyValid = (obj, property) => {
+  return obj && obj[property] && obj[property].lenght > 0;
 };
 
 const parseJwt = (token) => {
@@ -45,4 +74,4 @@ const parseJwt = (token) => {
   return JSON.parse(jsonPayload);
 };
 
-export { isLoggedIn };
+export { isLoggedIn, isValidUser, getUserId };

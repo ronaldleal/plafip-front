@@ -1,12 +1,13 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import AppNav from "./AppNav";
-import AppHome from "./AppHome";
-import AppFotter from "./AppFooter";
-import AppLogin from "./AppLogin";
-import AppSignUp from "./AppSignUp";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
+import AppFotter from "./components/pages/AppFooter";
+import AppHome from "./components/pages/AppHome";
+import AppLogin from "./components/pages/AppLogin";
+import AppLogout from "./components/pages/AppLogout";
+import AppMovements from "./components/pages/AppMovements";
+import AppNav from "./components/pages/AppNav";
+import AppSignUp from "./components/pages/AppSignUp";
 import ROUTES from "./routes";
-import AppLogout from "./AppLogout";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path={ROUTES.LOGIN} component={AppLogin} exact />
           <Route path={ROUTES.SIGN_UP} component={AppSignUp} exact />
           <Route path={ROUTES.LOGOUT} component={AppLogout} exact />
+          <Route path={ROUTES.MOVIMIENTOS} component={AppMovements} exact />
         </Switch>
         <AppFotter />
       </div>

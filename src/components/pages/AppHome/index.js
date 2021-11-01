@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Image, Card } from "react-bootstrap";
-import banner from "../images/banner_1.jpg";
+import banner from "../../../images/banner_1.jpg";
 
 function AppHome() {
   return (
@@ -24,7 +24,7 @@ function AppHome() {
               </p>
             </Row>
           </Col>
-          
+
           <Col>
             <Row>
               <h3>Desarrolladores</h3>
@@ -46,7 +46,9 @@ function AppHome() {
         <Row className="jumbotron jumbotron-fluid">
           <Container>
             <Row>
-              <h3 className="text-center">Conoce más sobre Finanzas Personales</h3>
+              <h3 className="text-center">
+                Conoce más sobre Finanzas Personales
+              </h3>
             </Row>
             <Row>
               <Col>

@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router";
-import { doSignIn } from "../middleware/client";
-import { isLoggedIn } from "../middleware/login";
+import { doSignIn } from "../../../middleware/client";
+import { isLoggedIn } from "../../../middleware/login";
 import "./index.css";
 
 const isUserValid = (user) => {
