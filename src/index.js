@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./middleware/state";
 import "bootstrap/dist/css/bootstrap.css";
 
+require("dotenv").config();
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
@@ -14,3 +15,4 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
+
